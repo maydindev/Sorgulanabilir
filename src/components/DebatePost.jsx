@@ -49,7 +49,7 @@ Form çalışmıyor. Göreviniz, kullanıcı "Gönder "e tıkladığında gönde
 
   return (
     <div className='post-container'>
-      <PostContent data={{ ...postData }} />
+      <PostContent data={{ ...postData, comments }} />
       <PostComments data={comments} />
       <form onSubmit={handleSubmit}>
         <input
