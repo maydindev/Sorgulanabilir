@@ -1,4 +1,5 @@
-import { useState } from 'react'
+"use-client"
+import { useState, useEffect } from 'react'
 import PostComments from './PostComments'
 import PostContent from './PostContent'
 import postData from '../postData'
@@ -21,23 +22,54 @@ Form çalışmıyor. Göreviniz, kullanıcı "Gönder "e tıkladığında gönde
 */
 
   const [comments, setComments] = useState(postData.comments)
+  const [userNameInput,setUserNameInput] = useState("")
+  const [commentText,setCommentText] = useState("")
+  const [isAnonymousCheck, setIsAnonymousCheck] = useState(false)
+
+  useEffect(() => {
+    console.log(userNameInput);
+    console.log(commentText);
+    console.log(isAnonymousCheck);
+    console.log(comments);
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const newComment = {
+      id: crypto.randomUUID(),
+      userName: userNameInput,
+      isAnonymous: isAnonymousCheck,
+      commentText: commentText
+    }
+    setComments([...comments, newComment])
+    setUserNameInput("")
+    setCommentText("")
+    setIsAnonymousCheck(false)
+  }
 
   return (
     <div className='post-container'>
       <PostContent data={{ ...postData }} />
       <PostComments data={comments} />
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
           className='text-input'
           type='text'
+          value={userNameInput}
+          required
+          onChange={(e) => setUserNameInput(e.target.value)}
           placeholder='Kullanıcı adı girin.'
         />
-        <textarea placeholder='Ne düşünüyorsunuz?' />
+        <textarea onChange={(e) => setCommentText(e.target.value)} value={commentText} 
+        required 
+        placeholder='Ne düşünüyorsunuz?' />
         <label>
-          <input className='checkbox' type='checkbox' />
+          <input className='checkbox' type='checkbox' 
+          checked={isAnonymousCheck ? true : false}
+          onChange={(e) => setIsAnonymousCheck(e.target.value)}/>
           İsimsiz mi göndereyim?
         </label>
-        <button>Gönder</button>
+        <button type="submit">Gönder</button>
       </form>
     </div>
   )
