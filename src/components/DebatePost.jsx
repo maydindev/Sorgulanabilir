@@ -56,7 +56,7 @@ Form çalışmıyor. Göreviniz, kullanıcı "Gönder "e tıkladığında gönde
           className='text-input'
           type='text'
           value={userNameInput}
-          required
+          required={isAnonymousCheck ? "" : true}
           onChange={(e) => setUserNameInput(e.target.value)}
           placeholder='Kullanıcı adı girin.'
         />
